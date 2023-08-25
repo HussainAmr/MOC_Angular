@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <form (ngSubmit)="submit()" class="" #myForm="ngForm">
+        <h1 class="">Login</h1>
+        <div class="">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email Address"
+            [(ngModel)]="loginObj.email"
+            class=""
+          />
+        </div>
+
+        <div class="">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            [(ngModel)]="loginObj.password"
+            class=""
+          />
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn" [disabled]="myForm.form.invalid">
+            SUMBIT
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

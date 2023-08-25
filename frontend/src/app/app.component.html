@@ -1,0 +1,10 @@
+<div id="wrapper">
+  <app-sidenav
+    *ngIf="!onLoginRoute()"
+    (onTogglesideNav)="onTogglesideNav($event)"
+  >
+  </app-sidenav>
+  <div class="page-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</div>

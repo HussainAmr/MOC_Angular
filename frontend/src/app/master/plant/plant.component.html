@@ -1,0 +1,235 @@
+<h1>Plant</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="card">
+        <mat-tab-group
+          [(selectedIndex)]="selectedIndex"
+          (selectedTabChange)="tabClick($event)"
+          mat-stretch-tabs="true"
+          mat-align-tabs="start"
+        >
+          <!-- Table TAB -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <i class="bi bi-list-ul"></i>
+              List
+            </ng-template>
+
+            <!--delete succes message alert -->
+            <div
+              *ngIf="DelSuccessMsg"
+              class="alert alert-success alert-dismissible fade show mt-3"
+              role="alert"
+            >
+              <strong>{{ DelSuccessMsg }}</strong>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+            <!-- ----- -->
+
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th *ngFor="let cell of tableHeaderData">
+                      {{ cell }}
+                    </th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let plant of readPlant">
+                    <td>{{ plant.ID }}</td>
+                    <td>{{ plant.PLANT_CODE }}</td>
+                    <td>{{ plant.PLANT_NAME }}</td>
+                    <td>{{ plant.SITE_CODE }}</td>
+                    <td>
+                      <a (click)="editBtn(plant.ID, plant)" class="action">
+                        <i class="bi bi-pencil-square"></i>
+                      </a>
+                      <a (click)="deleteID(plant.ID)" class="action">
+                        <i class="bi bi-trash3-fill"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <mat-paginator
+                [length]="100"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Select page"
+              ></mat-paginator>
+            </div>
+          </mat-tab>
+
+          <!-- Form Tab -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <i class="bi bi-database-add"></i>
+              Create/Update
+            </ng-template>
+
+            <!-- show alert if fields empty -->
+            <div
+              *ngIf="errMsg"
+              class="alert alert-danger alert-dismissible fade show mt-3"
+              role="alert"
+            >
+              <strong> {{ errMsg }} </strong>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+            <!-- ---- -->
+
+            <!-- succes message alert -->
+            <div
+              *ngIf="successMsg"
+              class="alert alert-success alert-dismissible fade show mt-3"
+              role="alert"
+            >
+              <strong>{{ successMsg }}</strong>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+            <!-- ----- -->
+
+            <form [formGroup]="plantForm">
+              <div class="row form-view">
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <mat-form-field
+                    appearance="outline"
+                    class="mat-field-full-width"
+                  >
+                    <mat-label>Plant Code</mat-label>
+                    <input
+                      formControlName="PLANT_CODE"
+                      matInput
+                      placeholder="Enter plant Code"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <mat-form-field
+                    appearance="outline"
+                    class="mat-field-full-width"
+                  >
+                    <mat-label>Plant Name</mat-label>
+                    <input
+                      formControlName="PLANT_NAME"
+                      matInput
+                      placeholder="Enter Plant Name"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <mat-form-field
+                    appearance="outline"
+                    class="mat-field-full-width"
+                  >
+                    <mat-label>Plant Display Name</mat-label>
+                    <input
+                      formControlName="PLANT_DISPLAY_NAME"
+                      matInput
+                      placeholder="Enter Plant Display Name"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <mat-form-field
+                    appearance="outline"
+                    class="mat-field-full-width"
+                  >
+                    <mat-label>Site Code</mat-label>
+                    <mat-select formControlName="SITE_CODE" required>
+                      <mat-option value="DTA">DTA</mat-option>
+                      <mat-option value="SEZ">SEZ</mat-option>
+                      <mat-option value="HMD">HMD</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <mat-form-field
+                    appearance="outline"
+                    class="mat-field-full-width"
+                  >
+                    <mat-label>Description</mat-label>
+                    <input
+                      formControlName="DESCRIPTION"
+                      matInput
+                      placeholder="Enter Description"
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <mat-form-field
+                    appearance="outline"
+                    class="mat-field-full-width"
+                  >
+                    <mat-label>Active</mat-label>
+                    <mat-select formControlName="ACTIVE" required>
+                      <mat-option value="Active">Active</mat-option>
+                      <mat-option value="Inactive">Inactive</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-4 col-sm-6">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  *ngIf="!updatebtnActivate"
+                  (click)="submitForm()"
+                  class="mt-3"
+                >
+                  SAVE
+                </button>
+                <button
+                  mat-raised-button
+                  color="accent"
+                  *ngIf="updatebtnActivate"
+                  (click)="updateUser()"
+                  class="mt-3"
+                >
+                  UPDATE
+                </button>
+                <button
+                  mat-stroked-button
+                  color="warn"
+                  style="margin-left: 2rem"
+                  (click)="clear()"
+                  class="mt-3"
+                >
+                  CLEAR
+                </button>
+              </div>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>

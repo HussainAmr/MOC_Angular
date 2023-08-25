@@ -1,0 +1,20 @@
+.page-responsive {
+  /* width: calc(100% - 12rem); */
+  width: calc(100% - 16rem);
+  float: right;
+  /* float: left; */
+}
+
+.page-wrapper {
+  /* margin-left: 5rem; */
+  margin: 3rem 2rem 0 7rem;
+  /* margin: 3rem 7rem 0 2rem; */
+}
+
+div#wrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  /* right: 0; */
+}
